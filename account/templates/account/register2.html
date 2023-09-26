@@ -1,0 +1,275 @@
+{%extends 'base.html'%}
+{%block content%}
+<style>
+    @font-face {
+        font-family: ArafProgram;
+        src: url(font/AraFProgram.ttf);
+    }
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family:ArafProgram;
+    }
+    #add-info-div{
+        width:80%;
+        height: 78%;
+        margin: auto ;
+        background-color: rgb(255, 255, 255);
+        border-radius: 15px;
+    }
+    .main-div-popUp{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #100f0fd4;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    #close-btn{
+        width: 50px;
+        height: 50px;
+        border: none;
+        margin: 20px;
+        background-color: rgb(255, 255, 255);
+        border-radius:15px;
+    }
+    #close-btn img{
+        width: 100%;
+    }
+    .filds{
+        width:90%;
+        height: 370px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: -13px;
+    }
+    .fild{
+        width: 40%;
+    }
+    .fild label{
+        font-size: 18px;
+        display: inline;
+    }
+    .fild input {
+        float:left ;
+        width: 55%;
+        height: 30px;
+        border: 1px solid  rgb(107, 107, 107);
+        border-radius: 5px;
+        background-color:#f5f5f5;
+    }
+    #add-btn{
+        width: 200px;
+        height: 50px;
+        background-color: #393E46;
+        border-radius: 5px;
+        color: white;
+        font-size: 20px;
+        border:0 solid ;
+        transition: all .5s;
+        margin-bottom: 20px;
+    }
+    #add-btn:hover{
+        background:#494d53;
+        cursor: pointer;
+    }
+    .btn-container{
+        text-align: center;
+        margin-top: 5px;
+    }
+    @media only screen and (max-width:1280px ){ 
+        .filds{
+            width: 90%;
+        }
+        .fild{
+            width: 40%;
+        }
+        .fild label{
+            font-size: 16px
+        }
+        .fild input{
+            height: 30px;
+        }
+    }
+    @media only screen and (max-width:1105px ){ 
+        .filds{
+            width: 95%;
+        }
+        .fild{
+            width: 40%;
+        }
+        .fild label{
+            font-size: 15px
+        }
+        .fild input{
+            width: 50%;
+            height: 25px;
+        }
+    }
+    @media only screen and (max-width:890px ){
+        
+        .fild{
+            width: 50%;
+        }
+        .fild label{
+            font-size: 14px;
+        }
+        .fild input{
+            width: 43%;}
+    } 
+    @media only screen and (max-width:650px ){ 
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0;
+        }
+        #add-info-div{
+            overflow-x: auto;
+        }
+        .filds{
+            flex-direction: row;
+            height: auto;
+            margin-top: -25px;
+        }
+        .fild{
+            width: 75%;
+            margin-top: 30px;
+        }
+        .fild input{
+            width: 100%;
+            height: 40px;
+        }
+        .fild input::placeholder{
+        color: #000000;
+        font-size: 14px;
+        padding-right:10px ;
+        }
+        .filds label{
+            display: none;
+        }
+        #close-btn{
+            margin: 20px 20px 0 0 ;
+        }
+        #add-btn{
+            font-size: 18px;
+            height: 40px;
+            width: 150px;
+            margin-top: 35px;
+            margin-bottom: 25px;
+        }
+    }
+</style>
+<div class="main-div-popUp">
+
+        <form id="add-info-div" action="" method="post" novalidate>
+            {%csrf_token %}
+            
+            <button id="close-btn"><img src="img/close-sm-svgrepo-com.png"></button>
+            <input type="hidden" name="csrfmiddlewaretoken" value="PNSvqHUHSQlc3ZWO8pLa7E2JFvGdhuyQ3u3zNCifZCqEGWigOAT4PrNmkUWTO29M">
+            <div class="filds">
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_username">Username:</label></th>
+                        <td>
+                            
+                        <input type="text" name="username" required id="id_username">
+                        
+                        
+                        </td>
+                    </tr>      
+                </div>
+                
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_nickName">Nickname:</label></th>
+                        <td>
+                        
+                        <input type="text" name="nickName" required id="id_nickName">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_lastName">Lastname:</label></th>
+                        <td>
+                        
+                        <input type="text" name="lastName" required id="id_lastName">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_birthDate">Birthdate:</label></th>
+                        <td>
+                        
+                        <input type="text" name="birthDate" required id="id_birthDate">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_codeMeli">Codemeli:</label></th>
+                        <td>
+                        
+                        <input type="number" name="codeMeli" required id="id_codeMeli">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_email">Email:</label></th>
+                        <td>
+                        
+                        <input type="email" name="email" maxlength="320" required id="id_email">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    <tr>
+                        <th><label for="id_password1">Password1:</label></th>
+                        <td class="fild">
+                        
+                        <input type="password" name="password1" required id="id_password1">
+                        
+                        
+                        </td>
+                    </tr>
+                </div>
+                <div class="fild">
+                    
+                    <tr>
+                        <th><label for="id_password2">Password2:</label></th>
+                        <td class="fild">
+                        
+                            <input type="password" name="password2" required id="id_password2">
+                        
+                        
+                            
+                        
+                        </td>
+                    </tr>
+                </div>
+        </div>
+        <div class="btn-container">
+            <input id="add-btn" type="submit" value="Register" >
+        </div>
+        </form>
+    </div>
+{% endblock %}

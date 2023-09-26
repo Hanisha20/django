@@ -1,0 +1,12 @@
+{%extends 'base.html' %}
+{%block content%}
+    <h1 class="text-center">{{user.username}}</h1>
+    {% if request.user.id == user.id %} 
+        <a href="{% url 'homeApp:create_post' %}" class="btn btn-primary">create</a>
+    {% endif %}
+    <div class="card">
+        {%for post in posts%}
+            <a href="{{post.get_absolute_url}}" class="card-body">{{ post.body|truncatewords:3 }}</a>
+        {%endfor%}
+    </div>
+{%endblock%}
