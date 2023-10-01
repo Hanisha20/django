@@ -5,6 +5,26 @@
     <a href="{% url 'homeApp:upadate_post' post.id%}" class="btn btn-info">Update</a>
     {%endif%}  
     <p><a href="{%url 'accountApp:User_profile' post.user.id%}">{{post.user.username}}</a> - {{post.updated}}</p>
-    <p>{{post.body}}</p>
+    <p>{{post.body}}</p><hr>
 
-{%endblock%}
+    {%if request.user.is_authenticated%}
+        <form action="" method="post">
+            {%csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="send">
+        </form>
+    {%else%}
+        <p class="alert alert-danger">Only logged in users can leave comments</p>
+    {%endif%}  
+
+    <p>{{comments.count}} comments</p>
+    {%for comment in comments%}
+        <div class="card  bg-dark text-white col-md-5">
+            <p class="card-header">{{comment.user}} | {{comment.created | timesince}}</p>
+            <p class="card-body">{{comment.body}}</p>
+        </div>
+    {%empty %}
+        <p>No comments yet</p>
+    {%endfor%}  
+
+{%endblock%}    

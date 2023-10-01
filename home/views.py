@@ -1,20 +1,27 @@
 
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post
-from .forms import PostCreateUpdateForm
+from .forms import PostCreateUpdateForm , CommentCreateForm
 from django.utils.text import slugify
+from django.views.generic import ListView
+from django.db.models import Q
+
 class HomeView(View):
     def get(self, request):
         posts = Post.objects.all()
         return render(request, 'home/index.html', {'posts': posts})
     
 class PostDetailView(View):
+    form_class = CommentCreateForm
     def get(self, request, post_id, post_slug):
         post = get_object_or_404(Post, slug=post_slug , pk = post_id)
-        return render(request, 'home/detail.html', {'post': post})
+        comments = post.pcomments.filter(is_reply=False)
+        return render(request, 'home/detail.html', {'post': post, 'comments': comments , 'form': self.form_class})
 
 class PostDeleteView(LoginRequiredMixin, View):
     def get(self, request , post_id):
@@ -67,3 +74,15 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.save()
             messages.success(request, 'you created new post', 'success')
             return redirect('homeApp:post_detail', new_post.id , new_post.slug)
+
+class SearchPostsView(ListView):
+    model = Post
+    template_name = 'home/index.html'
+    context_object_name = 'posts'
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')  
+        if query:
+            return Post.objects.filter(Q(user__username__icontains=query) | Q(body__icontains=query))
+        else:
+            return Post.objects.all()   
